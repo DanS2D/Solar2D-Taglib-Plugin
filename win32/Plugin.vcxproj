@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\shared\plugin.taglib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\shared\taglib\aifffile.h" />
+    <ClInclude Include="..\shared\taglib\aiffproperties.h" />
+    <ClInclude Include="..\shared\taglib\apefile.h" />
+    <ClInclude Include="..\shared\taglib\apefooter.h" />
+    <ClInclude Include="..\shared\taglib\apeitem.h" />
+    <ClInclude Include="..\shared\taglib\apeproperties.h" />
+    <ClInclude Include="..\shared\taglib\apetag.h" />
+    <ClInclude Include="..\shared\taglib\asfattribute.h" />
+    <ClInclude Include="..\shared\taglib\asffile.h" />
+    <ClInclude Include="..\shared\taglib\asfpicture.h" />
+    <ClInclude Include="..\shared\taglib\asfproperties.h" />
+    <ClInclude Include="..\shared\taglib\asftag.h" />
+    <ClInclude Include="..\shared\taglib\attachedpictureframe.h" />
+    <ClInclude Include="..\shared\taglib\audioproperties.h" />
+    <ClInclude Include="..\shared\taglib\chapterframe.h" />
+    <ClInclude Include="..\shared\taglib\commentsframe.h" />
+    <ClInclude Include="..\shared\taglib\eventtimingcodesframe.h" />
+    <ClInclude Include="..\shared\taglib\fileref.h" />
+    <ClInclude Include="..\shared\taglib\flacfile.h" />
+    <ClInclude Include="..\shared\taglib\flacmetadatablock.h" />
+    <ClInclude Include="..\shared\taglib\flacpicture.h" />
+    <ClInclude Include="..\shared\taglib\flacproperties.h" />
+    <ClInclude Include="..\shared\taglib\generalencapsulatedobjectframe.h" />
+    <ClInclude Include="..\shared\taglib\id3v1genres.h" />
+    <ClInclude Include="..\shared\taglib\id3v1tag.h" />
+    <ClInclude Include="..\shared\taglib\id3v2.h" />
+    <ClInclude Include="..\shared\taglib\id3v2extendedheader.h" />
+    <ClInclude Include="..\shared\taglib\id3v2footer.h" />
+    <ClInclude Include="..\shared\taglib\id3v2frame.h" />
+    <ClInclude Include="..\shared\taglib\id3v2framefactory.h" />
+    <ClInclude Include="..\shared\taglib\id3v2header.h" />
+    <ClInclude Include="..\shared\taglib\id3v2synchdata.h" />
+    <ClInclude Include="..\shared\taglib\id3v2tag.h" />
+    <ClInclude Include="..\shared\taglib\infotag.h" />
+    <ClInclude Include="..\shared\taglib\itfile.h" />
+    <ClInclude Include="..\shared\taglib\itproperties.h" />
+    <ClInclude Include="..\shared\taglib\modfile.h" />
+    <ClInclude Include="..\shared\taglib\modfilebase.h" />
+    <ClInclude Include="..\shared\taglib\modproperties.h" />
+    <ClInclude Include="..\shared\taglib\modtag.h" />
+    <ClInclude Include="..\shared\taglib\mp4atom.h" />
+    <ClInclude Include="..\shared\taglib\mp4coverart.h" />
+    <ClInclude Include="..\shared\taglib\mp4file.h" />
+    <ClInclude Include="..\shared\taglib\mp4item.h" />
+    <ClInclude Include="..\shared\taglib\mp4properties.h" />
+    <ClInclude Include="..\shared\taglib\mp4tag.h" />
+    <ClInclude Include="..\shared\taglib\mpcfile.h" />
+    <ClInclude Include="..\shared\taglib\mpcproperties.h" />
+    <ClInclude Include="..\shared\taglib\mpegfile.h" />
+    <ClInclude Include="..\shared\taglib\mpegheader.h" />
+    <ClInclude Include="..\shared\taglib\mpegproperties.h" />
+    <ClInclude Include="..\shared\taglib\oggfile.h" />
+    <ClInclude Include="..\shared\taglib\oggflacfile.h" />
+    <ClInclude Include="..\shared\taglib\oggpage.h" />
+    <ClInclude Include="..\shared\taglib\oggpageheader.h" />
+    <ClInclude Include="..\shared\taglib\opusfile.h" />
+    <ClInclude Include="..\shared\taglib\opusproperties.h" />
+    <ClInclude Include="..\shared\taglib\ownershipframe.h" />
+    <ClInclude Include="..\shared\taglib\podcastframe.h" />
+    <ClInclude Include="..\shared\taglib\popularimeterframe.h" />
+    <ClInclude Include="..\shared\taglib\privateframe.h" />
+    <ClInclude Include="..\shared\taglib\relativevolumeframe.h" />
+    <ClInclude Include="..\shared\taglib\rifffile.h" />
+    <ClInclude Include="..\shared\taglib\s3mfile.h" />
+    <ClInclude Include="..\shared\taglib\s3mproperties.h" />
+    <ClInclude Include="..\shared\taglib\speexfile.h" />
+    <ClInclude Include="..\shared\taglib\speexproperties.h" />
+    <ClInclude Include="..\shared\taglib\synchronizedlyricsframe.h" />
+    <ClInclude Include="..\shared\taglib\tableofcontentsframe.h" />
+    <ClInclude Include="..\shared\taglib\tag.h" />
+    <ClInclude Include="..\shared\taglib\taglib.h" />
+    <ClInclude Include="..\shared\taglib\taglib_config.h" />
+    <ClInclude Include="..\shared\taglib\taglib_export.h" />
+    <ClInclude Include="..\shared\taglib\tag_c.h" />
+    <ClInclude Include="..\shared\taglib\tbytevector.h" />
+    <ClInclude Include="..\shared\taglib\tbytevectorlist.h" />
+    <ClInclude Include="..\shared\taglib\tbytevectorstream.h" />
+    <ClInclude Include="..\shared\taglib\tdebuglistener.h" />
+    <ClInclude Include="..\shared\taglib\textidentificationframe.h" />
+    <ClInclude Include="..\shared\taglib\tfile.h" />
+    <ClInclude Include="..\shared\taglib\tfilestream.h" />
+    <ClInclude Include="..\shared\taglib\tiostream.h" />
+    <ClInclude Include="..\shared\taglib\tlist.h" />
+    <ClInclude Include="..\shared\taglib\tmap.h" />
+    <ClInclude Include="..\shared\taglib\tpropertymap.h" />
+    <ClInclude Include="..\shared\taglib\trefcounter.h" />
+    <ClInclude Include="..\shared\taglib\trueaudiofile.h" />
+    <ClInclude Include="..\shared\taglib\trueaudioproperties.h" />
+    <ClInclude Include="..\shared\taglib\tstring.h" />
+    <ClInclude Include="..\shared\taglib\tstringlist.h" />
+    <ClInclude Include="..\shared\taglib\uniquefileidentifierframe.h" />
+    <ClInclude Include="..\shared\taglib\unknownframe.h" />
+    <ClInclude Include="..\shared\taglib\unsynchronizedlyricsframe.h" />
+    <ClInclude Include="..\shared\taglib\urllinkframe.h" />
+    <ClInclude Include="..\shared\taglib\vorbisfile.h" />
+    <ClInclude Include="..\shared\taglib\vorbisproperties.h" />
+    <ClInclude Include="..\shared\taglib\wavfile.h" />
+    <ClInclude Include="..\shared\taglib\wavpackfile.h" />
+    <ClInclude Include="..\shared\taglib\wavpackproperties.h" />
+    <ClInclude Include="..\shared\taglib\wavproperties.h" />
+    <ClInclude Include="..\shared\taglib\xingheader.h" />
+    <ClInclude Include="..\shared\taglib\xiphcomment.h" />
+    <ClInclude Include="..\shared\taglib\xmfile.h" />
+    <ClInclude Include="..\shared\taglib\xmproperties.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shared\taglib\tlist.tcc" />
+    <None Include="..\shared\taglib\tmap.tcc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{79F0CACC-457B-4A25-BC54-81277688C361}</ProjectGuid>
+    <RootNamespace>Plugin</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(Configuration)\</OutDir>
+    <TargetName>plugin_video</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>plugin_video</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(Configuration)\</OutDir>
+    <TargetName>plugin_taglib</TargetName>
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>plugin_taglib</TargetName>
+    <IncludePath>C:\Users\Danny\Programming\Projects\CoronaSDK\Plugins\tagLib\shared\taglib;$(IncludePath)</IncludePath>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent />
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>CoronaEnterprise\Corona\shared\include;CoronaEnterprise\Corona\shared\include\Corona;CoronaEnterprise\Corona\shared\include\lua;../shared/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>CoronaEnterprise\Corona\win\lib\*.lib;libs/win32/*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent />
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>CoronaEnterprise\Corona\shared\include;CoronaEnterprise\Corona\shared\include\Corona;CoronaEnterprise\Corona\shared\include\lua;../shared/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>CoronaEnterprise\Corona\win\lib\*.lib;libs/win32/*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent />
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(CORONA_ROOT)/Corona/shared/include/Corona;$(CORONA_ROOT)/Corona/shared/include/lua;%(AdditionalIncludeDirectories);../shared/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);LUA_BUILD_AS_DLL;LUA_LIB;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(CORONA_ROOT)\Corona\win\lib\*.lib;$(ProjectDir)libs\tag.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+    </Link>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName).dll" "$(appdata)\Corona Labs\Corona Simulator\Plugins\$(TargetName).dll"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent />
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(CORONA_ROOT)/Corona/shared/include/Corona;$(CORONA_ROOT)/Corona/shared/include/lua;%(AdditionalIncludeDirectories);../shared/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);LUA_BUILD_AS_DLL;LUA_LIB;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(CORONA_ROOT)\Corona\win\lib\*.lib;$(ProjectDir)libs\*.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+    </Link>
+    <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>copy "$(OutDir)$(TargetName).dll" "$(appdata)\Corona Labs\Corona Simulator\Plugins\$(TargetName).dll"
+xcopy /E /Y "$(ProjectDir)dlls" "$(appdata)\Corona Labs\Corona Simulator\Plugins\"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
