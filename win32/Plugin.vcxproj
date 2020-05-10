@@ -263,8 +263,10 @@
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName).dll" "$(appdata)\Corona Labs\Corona Simulator\Plugins\$(TargetName).dll"
-</Command>
+      <Command>copy "$(OutDir)$(TargetName).dll" "C:\Users\Danny\Programming\Projects\CoronaSDK\Plugins\distribution\taglib\$(TargetName).dll"
+cd "C:\Users\Danny\Programming\Projects\CoronaSDK\Plugins\distribution\taglib\"
+call make_plugin.bat
+rmdir /S /Q "C:\Users\Danny\AppData\Roaming\Corona Labs\Corona Simulator\Plugins"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
