@@ -11,8 +11,13 @@
 #include "taglib/mpegfile.h"
 #include "taglib/id3v2tag.h"
 #include "taglib/attachedpictureframe.h"
+#include "taglib/mp4file.h"
 #include "taglib/mp4tag.h"
 #include "taglib/mp4coverart.h"
+#include "taglib/commentsframe.h"
+#include "taglib/popularimeterframe.h"
+#include "taglib/flacfile.h"
+#include "taglib/xiphcomment.h"
 
 // ----------------------------------------------------------------------------
 
@@ -205,25 +210,34 @@ namespace Corona
 		return utf16;
 	}
 
+	static bool WriteCoverToFile(const TagLib::ByteVector& data, const std::wstring& target)
+	{
+		FILE* f = _wfopen(target.c_str(), L"wb");
+
+		if (f)
+		{
+			const bool written = fwrite(data.data(), 1, data.size(), f) == data.size();
+			fclose(f);
+			return written;
+		}
+
+		return false;
+	}
+
+	// ################################### MP3 ARTWORK ################################### //
 	static bool GetMp3Artwork(std::wstring filePath, TagLib::String pictureFilePath)
 	{
 		bool created = false;
 		TagLib::MPEG::File mp3File(filePath.c_str());
-		TagLib::ID3v2::Tag* mp3Tag = mp3File.ID3v2Tag();
 
-		if (mp3Tag)
+		if (mp3File.isValid())
 		{
-			TagLib::ID3v2::FrameList frameList = mp3Tag->frameListMap()["APIC"]; //look for picture frames only
+			const TagLib::ID3v2::FrameList& frameList = mp3File.ID3v2Tag()->frameList("APIC");
 
 			if (!frameList.isEmpty())
 			{
-				TagLib::ID3v2::AttachedPictureFrame* pictureFrame;
-				TagLib::ID3v2::FrameList::ConstIterator it = frameList.begin();
-
-				for (; it != frameList.end(); it++)
-				{
-					pictureFrame = static_cast<TagLib::ID3v2::AttachedPictureFrame*> (*it);//cast Frame * to AttachedPictureFrame*
-				}
+				// Just grab the first image.
+				const auto* pictureFrame = (TagLib::ID3v2::AttachedPictureFrame*)frameList.front();
 
 				if (pictureFrame != NULL)
 				{
@@ -239,11 +253,7 @@ namespace Corona
 						fullPath.append(".jpg");
 					}
 
-					FILE* fout;
-					fopen_s(&fout, fullPath.toCString(), "wb");
-					fwrite(pictureFrame->picture().data(), pictureFrame->picture().size(), 1, fout);
-					fclose(fout);
-					created = true;
+					created = WriteCoverToFile(pictureFrame->picture(), utf8_to_utf16(fullPath.toCString()));
 				}
 			}
 		}
@@ -255,36 +265,175 @@ namespace Corona
 	{
 		bool saved = false;
 		TagLib::MPEG::File mp3File(filePath.c_str());
-		TagLib::ID3v2::Tag* mp3Tag = mp3File.ID3v2Tag();
 
-		auto framelist = mp3Tag->frameListMap()["APIC"];
-
-		if (!framelist.isEmpty())
+		if (mp3File.isValid())
 		{
-			for (auto it = mp3Tag->frameList().begin(); it != mp3Tag->frameList().end(); ++it)
-			{
-				auto frameID = (*it)->frameID();
-				std::string framestr{ frameID.data(), frameID.size() };
+			TagLib::ID3v2::Tag* mp3Tag = mp3File.ID3v2Tag();
+			auto framelist = mp3Tag->frameListMap()["APIC"];
 
-				if (framestr.compare("APIC") == 0)
+			if (!framelist.isEmpty())
+			{
+				for (auto it = mp3Tag->frameList().begin(); it != mp3Tag->frameList().end(); ++it)
 				{
-					mp3Tag->removeFrame((*it));
-					it = mp3Tag->frameList().begin();
+					auto frameID = (*it)->frameID();
+					std::string framestr{ frameID.data(), frameID.size() };
+
+					if (framestr.compare("APIC") == 0)
+					{
+						mp3Tag->removeFrame((*it));
+						it = mp3Tag->frameList().begin();
+					}
 				}
 			}
-		}
 
-		TagLibLibrary::ImageFile img(pictureFilePath);
-		auto picframe = new TagLib::ID3v2::AttachedPictureFrame;
-		picframe->setPicture(img.data());
-		picframe->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
-		mp3Tag->addFrame(picframe);
-		mp3File.save();
-		saved = true;
+			TagLibLibrary::ImageFile img(pictureFilePath);
+			auto picframe = new TagLib::ID3v2::AttachedPictureFrame;
+			picframe->setPicture(img.data());
+			picframe->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
+			mp3Tag->addFrame(picframe);
+			mp3File.save();
+			saved = true;
+		}
 
 		return saved;
 	}
 
+	// ################################### FLAC ARTWORK ################################### //
+	static bool GetFlacArtwork(std::wstring filePath, TagLib::String pictureFilePath)
+	{
+		bool created = false;
+		TagLib::FLAC::File flacFile(filePath.c_str());
+
+		if (flacFile.isValid())
+		{
+			const TagLib::List<TagLib::FLAC::Picture*>& picList = flacFile.pictureList();
+
+			if (!picList.isEmpty())
+			{
+				const TagLib::FLAC::Picture* picture = picList[0];
+
+				if (picture != NULL)
+				{
+					TagLib::String mimeType = picture->mimeType();
+					TagLib::String fullPath = pictureFilePath;
+
+					if (mimeType == "image/png")
+					{
+						fullPath.append(".png");
+					}
+					else
+					{
+						fullPath.append(".jpg");
+					}
+
+					created = WriteCoverToFile(picture->data(), utf8_to_utf16(fullPath.toCString()));
+				}
+			}
+		}
+
+		return created;
+	}
+
+	static bool SetFlacArtwork(std::wstring filePath, std::wstring pictureFilePath)
+	{
+		bool saved = false;
+		TagLib::FLAC::File flacFile(filePath.c_str());
+
+		if (flacFile.isValid())
+		{
+			TagLib::FLAC::Picture* picture = new TagLib::FLAC::Picture();
+			TagLibLibrary::ImageFile img(pictureFilePath);
+			picture->setData(img.data());
+			picture->setType(TagLib::FLAC::Picture::FrontCover);
+			picture->setDescription("Front Cover");
+			auto framelist = flacFile.pictureList();
+
+			for (auto it = framelist.begin(); it != framelist.end(); ++it)
+			{
+				TagLib::FLAC::Picture* currentPicture = *it;
+
+				if (currentPicture->type() == TagLib::FLAC::Picture::FrontCover)
+				{
+					flacFile.removePicture(currentPicture);
+					break;
+				}
+			}
+
+			flacFile.addPicture(picture);
+			flacFile.save();
+			saved = true;
+		}
+
+		return saved;
+	}
+
+	// ################################### MP4 ARTWORK ################################### //
+	static bool GetMP4Artwork(std::wstring filePath, TagLib::String pictureFilePath)
+	{
+		bool created = false;
+
+		TagLib::MP4::File mp4File(filePath.c_str());
+
+		if (mp4File.isValid())
+		{
+			const TagLib::MP4::ItemListMap& itemListMap = mp4File.tag()->itemListMap();
+
+			if (itemListMap.contains("covr"))
+			{
+				const TagLib::MP4::CoverArtList& coverArtList = itemListMap["covr"].toCoverArtList();
+
+				if (!coverArtList.isEmpty())
+				{
+					const TagLib::MP4::CoverArt* picture = &(coverArtList.front());
+					TagLib::MP4::CoverArt::Format mimeType = picture->format();
+					TagLib::String fullPath = pictureFilePath;
+
+					if (mimeType == TagLib::MP4::CoverArt::PNG)
+					{
+						fullPath.append(".png");
+					}
+					else if (mimeType == TagLib::MP4::CoverArt::JPEG)
+					{
+						fullPath.append(".jpg");
+					}
+
+					created = WriteCoverToFile(picture->data(), utf8_to_utf16(fullPath.toCString()));
+				}
+			}
+		}
+
+		return created;
+	}
+
+	static bool SetMP4Artwork(std::wstring filePath, std::wstring pictureFilePath)
+	{
+		bool saved = false;
+
+		TagLib::MP4::File mp4File(filePath.c_str());
+
+		if (mp4File.isValid())
+		{
+			TagLib::MP4::CoverArtList coverArtList = mp4File.tag()->item("covr").toCoverArtList();
+			TagLibLibrary::ImageFile img(pictureFilePath);
+			TagLib::String fullPath = pictureFilePath;
+			coverArtList.clear();
+
+			if (fullPath.substr(fullPath.size() - 3).upper() == "JPG" || fullPath.substr(fullPath.size() - 3).upper() == "JPEG")
+			{
+				coverArtList.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::JPEG, img.data()));
+			}
+			else if (fullPath.substr(fullPath.size() - 3).upper() == "PNG")
+			{
+				coverArtList.append(TagLib::MP4::CoverArt(TagLib::MP4::CoverArt::PNG, img.data()));
+			}
+
+			mp4File.tag()->setItem("covr", coverArtList);
+			mp4File.save();
+			saved = true;
+		}
+
+		return saved;
+	}
 
 	// ----------------------------------------------------------------------------
 
@@ -293,6 +442,7 @@ namespace Corona
 	{
 		const char* fileName;
 		const char* filePath;
+		int rating = 0;
 
 		if (lua_istable(L, 1))
 		{
@@ -333,6 +483,22 @@ namespace Corona
 			fullPath.append("\\");
 			fullPath.append(fileName);
 			std::wstring utf16Path = utf8_to_utf16(fullPath);
+			TagLib::String fName = fileName;
+			TagLib::String fileType = fName.substr(fName.size() - 3).upper();
+
+			if (fileType == "MP3")
+			{
+				TagLib::MPEG::File mp3File(utf16Path.c_str());
+
+				if (mp3File.isValid() && mp3File.hasID3v2Tag())
+				{
+					if (!mp3File.ID3v2Tag()->frameList("POPM").isEmpty() && mp3File.ID3v2Tag()->frameList("POPM").front())
+					{
+						rating = dynamic_cast<TagLib::ID3v2::PopularimeterFrame*>(mp3File.ID3v2Tag()->frameList("POPM").front())->rating();
+					}
+				}
+			}
+
 			TagLib::FileRef file(utf16Path.c_str());
 
 			if (!file.isNull() && file.tag())
@@ -340,8 +506,6 @@ namespace Corona
 				TagLib::AudioProperties* properties = file.audioProperties();
 				int seconds = properties->length() % 60;
 				int minutes = (properties->length() - seconds) / 60;
-
-				//TagLib::
 
 				lua_newtable(L);
 				// title
@@ -365,6 +529,9 @@ namespace Corona
 				// track number
 				lua_pushnumber(L, file.tag()->track());
 				lua_setfield(L, -2, "trackNumber");
+				// rating
+				lua_pushnumber(L, rating);
+				lua_setfield(L, -2, "rating");
 				// duration seconds
 				lua_pushnumber(L, seconds);
 				lua_setfield(L, -2, "durationSeconds");
@@ -402,6 +569,9 @@ namespace Corona
 				// track number
 				lua_pushnumber(L, 0);
 				lua_setfield(L, -2, "trackNumber");
+				// rating
+				lua_pushnumber(L, rating);
+				lua_setfield(L, -2, "rating");
 				// duration seconds
 				lua_pushnumber(L, 0);
 				lua_setfield(L, -2, "durationSeconds");
@@ -497,11 +667,20 @@ namespace Corona
 			std::wstring utf16FilePath = utf8_to_utf16(fullPath);
 			std::wstring utf16PictureFilePath = utf8_to_utf16(pictureFullPath);
 			TagLib::String fName = fileName;
-			TagLib::String fileType = fName.substr(fName.size() - 3).upper();
 
-			if (fileType == "MP3")
+			if (fName.substr(fName.size() - 3).upper() == "MP3")
 			{
 				lua_pushboolean(L, GetMp3Artwork(utf16FilePath, utf16PictureFilePath));
+				return 1;
+			}
+			else if (fName.substr(fName.size() - 4).upper() == "FLAC")
+			{
+				lua_pushboolean(L, GetFlacArtwork(utf16FilePath, utf16PictureFilePath));
+				return 1;
+			}
+			else if (fName.substr(fName.size() - 3).upper() == "M4V" || fName.substr(fName.size() - 3).upper() == "M4A")
+			{
+				lua_pushboolean(L, GetMP4Artwork(utf16FilePath, utf16PictureFilePath));
 				return 1;
 			}
 		}
@@ -703,11 +882,20 @@ namespace Corona
 			std::wstring utf16FilePath = utf8_to_utf16(fullPath);
 			std::wstring utf16PictureFilePath = utf8_to_utf16(pictureFullPath);
 			TagLib::String fName = fileName;
-			TagLib::String fileType = fName.substr(fName.size() - 3).upper();
 
-			if (fileType == "MP3")
+			if (fName.substr(fName.size() - 3).upper() == "MP3")
 			{
 				lua_pushboolean(L, SetMp3Artwork(utf16FilePath, utf16PictureFilePath));
+				return 1;
+			}
+			else if (fName.substr(fName.size() - 4).upper() == "FLAC")
+			{
+				lua_pushboolean(L, SetFlacArtwork(utf16FilePath, utf16PictureFilePath));
+				return 1;
+			}
+			else if (fName.substr(fName.size() - 3).upper() == "M4V" || fName.substr(fName.size() - 3).upper() == "M4A")
+			{
+				lua_pushboolean(L, SetMP4Artwork(utf16FilePath, utf16PictureFilePath));
 				return 1;
 			}
 		}
