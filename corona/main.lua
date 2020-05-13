@@ -10,13 +10,14 @@ local resourcePath = system.pathForFile("", system.ResourceDirectory)
 -- MP3 TESTS
 local testMp3MetadataGet = false
 local testMp3MetadataSet = false
-local testMP3ArtworkGet = true
+local testMp3MetadataSetRating = true
+local testMP3ArtworkGet = false
 local testMP3ArtworkSet = false
 -- FLAC TESTS
-local testFlacArtworkGet = true
+local testFlacArtworkGet = false
 local testFlacArtworkSet = false
 -- MP4 TESTS
-local testMP4ArtworkGet = true
+local testMP4ArtworkGet = false
 local testMP4ArtworkSet = false
 
 if (testMp3MetadataGet) then
@@ -37,6 +38,24 @@ if (testMp3MetadataSet) then
 			fileName = "Above & Beyond - Can't Sleep.mp3",
 			filePath = resourcePath,
 			tags = {title = "Can't Sleep", trackNumber = 16}
+		}
+	)
+
+	local newTag = tag.get({fileName = "Above & Beyond - Can't Sleep.mp3", filePath = resourcePath})
+
+	for k, v in pairs(newTag) do
+		print(k .. " : " .. v)
+	end
+end
+
+if (testMp3MetadataSetRating) then
+	print("testing adding a rating to MP3 file")
+
+	tag.set(
+		{
+			fileName = "Above & Beyond - Can't Sleep.mp3",
+			filePath = resourcePath,
+			tags = {rating = 242}
 		}
 	)
 
