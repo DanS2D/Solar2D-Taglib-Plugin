@@ -484,9 +484,8 @@ namespace Corona
 			fullPath.append(fileName);
 			std::wstring utf16Path = utf8_to_utf16(fullPath);
 			TagLib::String fName = fileName;
-			TagLib::String fileType = fName.substr(fName.size() - 3).upper();
 
-			if (fileType == "MP3")
+			if (fName.substr(fName.size() - 3).upper() == "MP3")
 			{
 				TagLib::MPEG::File mp3File(utf16Path.c_str());
 
@@ -727,68 +726,110 @@ namespace Corona
 				fullPath.append("\\");
 				fullPath.append(fileName);
 				std::wstring utf16Path = utf8_to_utf16(fullPath);
+				TagLib::String fName = fileName;
+
+				if (fName.substr(fName.size() - 3).upper() == "MP3")
+				{
+					TagLib::MPEG::File mp3File(utf16Path.c_str());
+
+					if (mp3File.isValid() && mp3File.hasID3v2Tag())
+					{
+						int rating = 0;
+
+						lua_getfield(L, -1, "rating");
+						if (lua_isnumber(L, -1))
+						{
+							rating = lua_tonumber(L, -1);
+						}
+						lua_pop(L, 1);
+
+						TagLib::ID3v2::PopularimeterFrame* popularimeterFrame = new TagLib::ID3v2::PopularimeterFrame();
+
+						if (!mp3File.ID3v2Tag()->frameList("POPM").isEmpty() && mp3File.ID3v2Tag()->frameList("POPM").front())
+						{
+							popularimeterFrame->setEmail(dynamic_cast<TagLib::ID3v2::PopularimeterFrame*>(mp3File.ID3v2Tag()->frameList("POPM").front())->email());
+							popularimeterFrame->setCounter(dynamic_cast<TagLib::ID3v2::PopularimeterFrame*>(mp3File.ID3v2Tag()->frameList("POPM").front())->counter());
+							mp3File.ID3v2Tag()->removeFrame(mp3File.ID3v2Tag()->frameList("POPM").front());
+							mp3File.save();
+						}
+
+						popularimeterFrame->setRating(rating);
+						mp3File.ID3v2Tag()->addFrame(popularimeterFrame);
+						mp3File.save();
+					}
+				}
+
 				TagLib::FileRef file(utf16Path.c_str());
-				bool hasChangedTag = false;
 
-				lua_getfield(L, -1, "title");
-				if (lua_isstring(L, -1))
+				if (!file.isNull())
 				{
-					file.tag()->setTitle(lua_tostring(L, -1));
-					hasChangedTag = true;
+					bool hasChangedTag = false;
+
+					lua_getfield(L, -1, "title");
+					if (lua_isstring(L, -1))
+					{
+						file.tag()->setTitle(utf8_to_utf16(lua_tostring(L, -1)));
+						hasChangedTag = true;
+					}
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "artist");
+					if (lua_isstring(L, -1))
+					{
+						file.tag()->setArtist(utf8_to_utf16(lua_tostring(L, -1)));
+						hasChangedTag = true;
+					}
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "album");
+					if (lua_isstring(L, -1))
+					{
+						file.tag()->setAlbum(utf8_to_utf16(lua_tostring(L, -1)));
+						hasChangedTag = true;
+					}
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "genre");
+					if (lua_isstring(L, -1))
+					{
+						file.tag()->setGenre(utf8_to_utf16(lua_tostring(L, -1)));
+						hasChangedTag = true;
+					}
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "comment");
+					if (lua_isstring(L, -1))
+					{
+						file.tag()->setComment(utf8_to_utf16(lua_tostring(L, -1)));
+						hasChangedTag = true;
+					}
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "year");
+					if (lua_isnumber(L, -1))
+					{
+						file.tag()->setYear(lua_tonumber(L, -1));
+						hasChangedTag = true;
+					}
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "trackNumber");
+					if (lua_isnumber(L, -1))
+					{
+						file.tag()->setTrack(lua_tonumber(L, -1));
+						hasChangedTag = true;
+					}
+					lua_pop(L, 1);
+
+					if (hasChangedTag)
+					{
+						file.save();
+					}
 				}
-				lua_pop(L, 1);
-
-				lua_getfield(L, -1, "artist");
-				if (lua_isstring(L, -1))
+				else
 				{
-					file.tag()->setArtist(lua_tostring(L, -1));
-					hasChangedTag = true;
-				}
-				lua_pop(L, 1);
-
-				lua_getfield(L, -1, "album");
-				if (lua_isstring(L, -1))
-				{
-					file.tag()->setAlbum(lua_tostring(L, -1));
-					hasChangedTag = true;
-				}
-				lua_pop(L, 1);
-
-				lua_getfield(L, -1, "genre");
-				if (lua_isstring(L, -1))
-				{
-					file.tag()->setGenre(lua_tostring(L, -1));
-					hasChangedTag = true;
-				}
-				lua_pop(L, 1);
-
-				lua_getfield(L, -1, "comment");
-				if (lua_isstring(L, -1))
-				{
-					file.tag()->setComment(lua_tostring(L, -1));
-					hasChangedTag = true;
-				}
-				lua_pop(L, 1);
-
-				lua_getfield(L, -1, "year");
-				if (lua_isnumber(L, -1))
-				{
-					file.tag()->setYear(lua_tonumber(L, -1));
-					hasChangedTag = true;
-				}
-				lua_pop(L, 1);
-
-				lua_getfield(L, -1, "trackNumber");
-				if (lua_isnumber(L, -1))
-				{
-					file.tag()->setTrack(lua_tonumber(L, -1));
-					hasChangedTag = true;
-				}
-				lua_pop(L, 2); // pop the table too
-
-				if (hasChangedTag)
-				{
-					file.save();
+					CoronaLuaError(L, "taglib.set() couldn't find file at path: %ls", utf16Path);
+					lua_pushnil(L);
 				}
 			}
 			else
