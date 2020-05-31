@@ -135,12 +135,12 @@
     <ProjectGuid>{79F0CACC-457B-4A25-BC54-81277688C361}</ProjectGuid>
     <RootNamespace>Plugin</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
@@ -192,7 +192,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(Configuration)\</OutDir>
     <TargetName>plugin_taglib</TargetName>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\shared\;$(ProjectDir)..\shared\taglib\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>plugin_taglib</TargetName>
@@ -250,6 +250,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(CORONA_ROOT)\Corona\win\lib\*.lib;$(ProjectDir)libs\tag.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -263,8 +265,8 @@
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>copy "$(OutDir)$(TargetName).dll" "C:\Users\Danny\Programming\Projects\CoronaSDK\Plugins\distribution\taglib\$(TargetName).dll"
-cd "C:\Users\Danny\Programming\Projects\CoronaSDK\Plugins\distribution\taglib\"
+      <Command>copy "$(OutDir)$(TargetName).dll" "C:\Users\Danny\Programming\Projects\Solar2D\Plugins\distribution\taglib\$(TargetName).dll"
+cd "C:\Users\Danny\Programming\Projects\Solar2D\Plugins\distribution\taglib\"
 call make_plugin.bat
 rmdir /S /Q "C:\Users\Danny\AppData\Roaming\Corona Labs\Corona Simulator\Plugins"</Command>
     </PostBuildEvent>
