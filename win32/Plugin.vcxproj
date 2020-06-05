@@ -19,9 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\shared\Artwork.cpp" />
     <ClCompile Include="..\shared\plugin.taglib.cpp" />
+    <ClCompile Include="..\shared\utfString.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\shared\Artwork.hpp" />
     <ClInclude Include="..\shared\taglib\aifffile.h" />
     <ClInclude Include="..\shared\taglib\aiffproperties.h" />
     <ClInclude Include="..\shared\taglib\apefile.h" />
@@ -126,6 +129,7 @@
     <ClInclude Include="..\shared\taglib\xiphcomment.h" />
     <ClInclude Include="..\shared\taglib\xmfile.h" />
     <ClInclude Include="..\shared\taglib\xmproperties.h" />
+    <ClInclude Include="..\shared\utfString.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\shared\taglib\tlist.tcc" />

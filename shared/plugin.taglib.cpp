@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <fstream>
 #include "utfString.hpp"
-#include "Artwork.hpp"
 #define TAGLIB_STATIC
+#include "Artwork.hpp"
 #include "taglib/taglib.h"
 #include "taglib/fileref.h"
 #include "taglib/mpegfile.h"
@@ -31,22 +31,22 @@ namespace Corona
 
 	class TagLibLibrary
 	{
-	public:
+		public:
 		typedef TagLibLibrary Self;
 
-	public:
+		public:
 		static const char kName[];
 
-	public:
+		public:
 		static int Open(lua_State* L);
 		static int Finalizer(lua_State* L);
 		static Self* ToLibrary(lua_State* L);
 
-	protected:
+		protected:
 		TagLibLibrary();
 		bool Initialize(void* platformContext);
 
-	public:
+		public:
 		static int get(lua_State* L);
 		static int getArtwork(lua_State* L);
 		static int set(lua_State* L);
@@ -559,7 +559,7 @@ namespace Corona
 				{
 					#ifdef _WIN32
 					CoronaLuaError(L, "taglib.set() couldn't find file at path: %ls", utf16Path);
-					#elseif
+					#else
 					CoronaLuaError(L, "taglib.set() couldn't find file at path: %s", utf16Path);
 					#endif
 					lua_pushnil(L);
