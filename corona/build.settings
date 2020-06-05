@@ -47,12 +47,6 @@ settings =
 		["plugin.taglib"] =
 		{
 			publisherId = "com.revolt64",
-			supportedPlatforms = { 
-				iphone = false,
-				android = false,
-				macos = false,
-				["win32-sim"] = { url="http://127.0.0.1:81/taglib_plugin.tgz?" .. os.time() },
-			},
 		},
 	},
 

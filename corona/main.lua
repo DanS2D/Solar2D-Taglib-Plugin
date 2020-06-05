@@ -4,13 +4,16 @@
 --
 -----------------------------------------------------------------------------------------
 local tag = require("plugin.taglib")
-local docsPath = system.pathForFile("", system.DocumentsDirectory)
-local resourcePath = system.pathForFile("", system.ResourceDirectory)
+local docsPath = system.pathForFile(nil, system.DocumentsDirectory)
+local resourcePath = system.pathForFile(nil, system.ResourceDirectory)
+
+print("resource:", resourcePath)
+print("docs:", docsPath)
 
 -- MP3 TESTS
 local testMp3MetadataGet = false
 local testMp3MetadataSet = false
-local testMp3MetadataSetRating = true
+local testMp3MetadataSetRating = false
 local testMP3ArtworkGet = false
 local testMP3ArtworkSet = false
 -- FLAC TESTS
@@ -18,7 +21,7 @@ local testFlacArtworkGet = false
 local testFlacArtworkSet = false
 -- MP4 TESTS
 local testMP4ArtworkGet = false
-local testMP4ArtworkSet = false
+local testMP4ArtworkSet = true
 
 if (testMp3MetadataGet) then
 	local testTag = tag.get({fileName = "Above & Beyond - Can't Sleep.mp3", filePath = resourcePath})
@@ -87,6 +90,7 @@ if (testMP3ArtworkSet) then
 		{
 			fileName = "Above & Beyond - Can't Sleep.mp3",
 			filePath = resourcePath,
+			--imageFileName = "gears.jpg",
 			imageFileName = "origMP3.jpg",
 			imageFilePath = resourcePath
 		}
@@ -123,6 +127,7 @@ if (testFlacArtworkSet) then
 		{
 			fileName = "Various - My Friend Pedro OST - 17 - Navie D - Stop and Watch.flac",
 			filePath = resourcePath,
+			--imageFileName = "gears.jpg",
 			imageFileName = "origFLAC.jpg",
 			imageFilePath = resourcePath
 		}
@@ -159,6 +164,7 @@ if (testMP4ArtworkSet) then
 		{
 			fileName = "3 - Britney Spears.m4a",
 			filePath = resourcePath,
+			--imageFileName = "gears.jpg",
 			imageFileName = "origMP4.jpg",
 			imageFilePath = resourcePath
 		}
