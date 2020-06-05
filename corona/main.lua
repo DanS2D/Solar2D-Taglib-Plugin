@@ -11,7 +11,7 @@ print("resource:", resourcePath)
 print("docs:", docsPath)
 
 -- MP3 TESTS
-local testMp3MetadataGet = false
+local testMp3MetadataGet = true
 local testMp3MetadataSet = false
 local testMp3MetadataSetRating = false
 local testMP3ArtworkGet = false
@@ -21,7 +21,7 @@ local testFlacArtworkGet = false
 local testFlacArtworkSet = false
 -- MP4 TESTS
 local testMP4ArtworkGet = false
-local testMP4ArtworkSet = true
+local testMP4ArtworkSet = false
 
 if (testMp3MetadataGet) then
 	local testTag = tag.get({fileName = "Above & Beyond - Can't Sleep.mp3", filePath = resourcePath})

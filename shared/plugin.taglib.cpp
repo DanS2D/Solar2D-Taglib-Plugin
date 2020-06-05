@@ -558,9 +558,9 @@ namespace Corona
 				else
 				{
 					#ifdef _WIN32
-					CoronaLuaError(L, "taglib.set() couldn't find file at path: %ls", utf16Path);
+					CoronaLuaError(L, "taglib.set() couldn't find file at path: %ls", utf16Path.c_str());
 					#else
-					CoronaLuaError(L, "taglib.set() couldn't find file at path: %s", utf16Path);
+					CoronaLuaError(L, "taglib.set() couldn't find file at path: %s", utf16Path.c_str());
 					#endif
 					lua_pushnil(L);
 				}
